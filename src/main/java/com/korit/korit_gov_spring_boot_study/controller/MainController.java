@@ -42,4 +42,9 @@ public class MainController {
 
         return "search.html";
     }
+
+    @GetMapping("/signup")
+    private String signup() {
+        return "signup";
+    }
 }
