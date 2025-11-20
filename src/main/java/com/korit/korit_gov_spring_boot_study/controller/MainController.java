@@ -1,16 +1,30 @@
 package com.korit.korit_gov_spring_boot_study.controller;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+@Data
+@AllArgsConstructor
+class UserDto {
+    private Integer userId;
+    private String username;
+    private Integer age;
+}
 
 // SSR -> 서버쪽에서 렌더링 후 반환
 @Controller
 public class MainController {
+    private List<UserDto> users = new ArrayList<>();
 
     // 동적 요소 x
     @GetMapping("/main")
@@ -44,7 +58,21 @@ public class MainController {
     }
 
     @GetMapping("/signup")
-    private String signup() {
+    public String signup() {
         return "signup";
+    }
+
+    @PostMapping("/signup")
+    public String signupSubmit(@RequestParam String name, @RequestParam Integer age, Model model) {
+        UserDto userDto = new UserDto(users.size() + 1, name, age);
+        users.add(userDto);
+        model.addAttribute("message", name + " 님, 가입을 환영합니다.");
+        return "result-page";
+    }
+
+    @GetMapping("/users")
+    public String userList(Model model) {
+        model.addAttribute("users", users);
+        return "users";
     }
 }
