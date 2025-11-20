@@ -1,6 +1,6 @@
 package com.korit.korit_gov_spring_boot_study.controller;
 
-import com.korit.korit_gov_spring_boot_study.dto.AddMemberReqDto;
+import com.korit.korit_gov_spring_boot_study.dto.Request.AddMemberReqDto;
 import com.korit.korit_gov_spring_boot_study.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -65,12 +65,12 @@ public class MainController {
         return "search.html";
     }
 
-    @GetMapping("/signup")
+    @GetMapping("/signup1")
     public String signup() {
         return "signup";
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signup1")
     public String signupSubmit(@RequestParam String name, @RequestParam Integer age, Model model) {
 //        UserDto userDto = new UserDto(users.size() + 1, name, age);
 //        users.add(userDto);
