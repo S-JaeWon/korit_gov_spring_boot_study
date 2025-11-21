@@ -3,7 +3,6 @@ package com.korit.korit_gov_spring_boot_study.dto.Request;
 import com.korit.korit_gov_spring_boot_study.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor

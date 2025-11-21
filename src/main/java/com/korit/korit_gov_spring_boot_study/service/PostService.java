@@ -4,25 +4,27 @@ import com.korit.korit_gov_spring_boot_study.dto.Request.PostReqDto;
 import com.korit.korit_gov_spring_boot_study.dto.Respone.PostRespDto;
 import com.korit.korit_gov_spring_boot_study.entity.Post;
 import com.korit.korit_gov_spring_boot_study.repository.PostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PostService {
-    private static PostService instance;
+    @Autowired
     private PostRepository postRepository;
-    PostRespDto<?> postRespDto = null;
-
-
+/*    private static PostService instance;
     private PostService() {
         postRepository = PostRepository.getInstance();
     }
-
     public static PostService getInstance() {
         if (instance == null) {
             instance = new PostService();
         }
         return instance;
-    }
+    }*/ //IOC 사용시 싱글톤 사용 x
+
+    PostRespDto<?> postRespDto = null;
 
     public PostRespDto<?> enrollPost(PostReqDto postReqDto) {
         if (postRepository.searchTitle(postReqDto.getTitle()) != null) {
@@ -70,11 +72,20 @@ public class PostService {
     }
 
     public PostRespDto<?> updatePostById(Integer postId, String content) {
-        postRepository.updatePost(postId, content);
-        return postRespDto = PostRespDto.<Post>builder()
+        Post updatedPost = postRepository.updatePost(postId, content);
+
+        if (updatedPost == null) {
+            return PostRespDto.<Post>builder()
+                    .status("failed")
+                    .message("해당 ID의 게시글이 없습니다.")
+                    .data(null)
+                    .build();
+        }
+
+        return PostRespDto.<Post>builder()
                 .status("success")
                 .message("content 수정 완료")
-                .data(postRepository.searchId(postId))
+                .data(updatedPost)
                 .build();
     }
 }

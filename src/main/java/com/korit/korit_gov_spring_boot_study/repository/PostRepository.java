@@ -1,24 +1,24 @@
 package com.korit.korit_gov_spring_boot_study.repository;
 
 import com.korit.korit_gov_spring_boot_study.entity.Post;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class PostRepository {
-    private static PostRepository instance;
     private List<Post> postList;
-
     private PostRepository() {
         postList = new ArrayList<>();
     }
-
+/*    private static PostRepository instance;
     public static PostRepository getInstance() {
         if (instance == null) {
             instance = new PostRepository();
         }
         return instance;
-    }
+    }*/ //IOC 사용시 싱글톤 사용 x
 
     public Post searchTitle(String title) {
         return postList.stream()
@@ -53,11 +53,9 @@ public class PostRepository {
         for (Post post : postList) {
             if (post.getPostId().equals(postId)) {
                 post.setContent(content);
+                return post;
             }
-            return post;
         }
-
         return null;
     }
-
 }
